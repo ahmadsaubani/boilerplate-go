@@ -56,8 +56,9 @@ func AppInitialization() {
 
 	newConfig.Routes = &Routes.Routes{
 		Gin:        routesConfig,
-		Controller: Controller.InitControllerApi(utilities),
+		Controller: Controller.InitControllerService(utilities),
 	}
+	Routes.NewConsumer(RabbitService.Consumer(), utilities).CollectSubscriber()
 	routes := newConfig.Routes.CollectRoutes()
 	newConfig.HttpEngine.Run(routes)
 

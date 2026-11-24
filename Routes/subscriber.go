@@ -1,7 +1,7 @@
 package Routes
 
 import (
-	"boilerplate-go/Controller"
+	"boilerplate-go/Controller/Subscribers"
 	"boilerplate-go/DTO"
 	"boilerplate-go/Services/RabbitMQ"
 	subcriberConfig "boilerplate-go/Services/RabbitMQ/subscriberConfig"
@@ -10,7 +10,7 @@ import (
 type subscriber struct {
 	Config   subcriberConfig.SubscriberConfig
 	Service  RabbitMQ.SubscriberService
-	Consumer Controller.ControllerConsumer
+	Consumer Subscribers.ControllerConsumer
 }
 
 type SubscriberRoutes interface {
@@ -18,9 +18,10 @@ type SubscriberRoutes interface {
 }
 
 // collection to setup your subscription
-
 func (s subscriber) CollectSubscriber() {
 	s.Service.Add(s.Config.ExampleConfig.ConfigsSubsExample, s.Consumer.ExampleConsumer.ExampleSubscriberController)
+	s.Service.Add(s.Config.ExampleConfig.ConfigExampleDirectRPC, s.Consumer.ExampleConsumer.ExampleSubscriberRPCController)
+	s.Service.Add(s.Config.ExampleConfig.ConfigExampleDirectNonRPC, s.Consumer.ExampleConsumer.ExampleSubscriberNonRPCController)
 	s.Service.ExecuteService()
 }
 
@@ -31,6 +32,6 @@ func NewConsumer(Service RabbitMQ.SubscriberService, u DTO.Utilities) Subscriber
 		Config: subcriberConfig.SubscriberConfig{
 			ExampleConfig: subcriberConfig.SubsConfig{},
 		},
-		Consumer: Controller.NewConsumerController(u),
+		Consumer: Subscribers.NewConsumerController(u),
 	}
 }

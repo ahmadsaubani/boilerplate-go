@@ -15,6 +15,7 @@ type example struct {
 
 type ExampleModules interface {
 	DBStatus() sql.DBStats
+	IsExists(yourName string) (res bool)
 }
 
 func NewExampleModules(moduleConfig ModuleDTO.ModulesConfig) ExampleModules {

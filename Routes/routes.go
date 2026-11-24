@@ -29,5 +29,8 @@ func (app *Routes) CollectRoutes() *gin.Engine {
 	healthCheck := appRoute.Group("/")
 
 	apiGroup.HealtCheck.HealthCheckApiGroup(healthCheck)
+
+	example := appRoute.Group("/example")
+	apiGroup.Example.ExampleApiGroup(example, app.Controller.Example)
 	return appRoute
 }
